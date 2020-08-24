@@ -6,6 +6,6 @@ namespace E_Voucher.Repositories
     public interface IUserRepository 
     {
         public LoginResponse Login(LoginRequest _request);
-        public RefreshTokenResponse RefreshToken(RefreshTokenRequest _request,string token);
+        //public RefreshTokenResponse RefreshToken(RefreshTokenRequest _request,string token);
     }
 }

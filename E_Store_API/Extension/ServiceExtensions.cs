@@ -12,6 +12,9 @@ using E_Voucher.Entities.Response_Models;
 using System.Text;
 using Newtonsoft.Json;
 using E_Store_API.Helper;
+using Hangfire;
+using Hangfire.SqlServer;
+using System;
 
 namespace E_Store_API.Extensions
 {
@@ -27,7 +30,7 @@ namespace E_Store_API.Extensions
         }
         public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration config)
         {
-
+            services.AddHttpContextAccessor();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
@@ -72,6 +75,25 @@ namespace E_Store_API.Extensions
                 options.SuppressModelStateInvalidFilter = true;
             });
         }
+        public static void ConfigureHangfire(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddHangfire(configuration => configuration
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(config.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+            {
+                CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                QueuePollInterval = TimeSpan.Zero,
+                UseRecommendedIsolationLevel = true,
+                DisableGlobalLocks = true
+            }));
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
+        }
+
         public static void ConfigureRadis(this IServiceCollection services, IConfiguration config)
         {
             services.AddDistributedRedisCache(option =>

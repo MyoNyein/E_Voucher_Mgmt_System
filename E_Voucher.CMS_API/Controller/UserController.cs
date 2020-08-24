@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_Voucher.CMS_API.Helper;
+using E_Voucher.Entities.DTO;
 using E_Voucher.Entities.Request_Models;
 using E_Voucher.Entities.Response_Models;
 using E_Voucher.Repositories;
@@ -35,13 +36,19 @@ namespace E_Voucher.CMS_API.Controller
                 var response = repo.User.Login(_request);
                 if (String.IsNullOrEmpty(response.ErrorStatus))
                 {
+                    repo.RefreshToken.SaveRefreshToken(new SaveRefreshTokenDTO
+                    {
+                        ExpiryMinute = response.RefreshTokenExpireMinutes,
+                        RefreshToken = response.RefreshToken,
+                        UserId  =response.UserId
+                    });
                     log.LogInformation($"Login Success");
                     return Ok(response);
                 }
                 else
                 {
                     log.LogError($"Login Error\r\n{response.ErrorStatus}");
-                    return NotFound(response.ErrorStatus);
+                    return NotFound(new Error("Un-authorized",response.ErrorStatus));
                 }
             }
             catch (Exception e)
@@ -61,7 +68,7 @@ namespace E_Voucher.CMS_API.Controller
                 log.LogInformation($"{APIName}\r\n");
                 var requestHeader = httpContextAccessor.HttpContext.Request.Headers;
                 string accessToken = requestHeader["Authorization"];
-                var response = repo.User.RefreshToken(_request,accessToken);
+                var response = repo.RefreshToken.RefreshToken(_request,accessToken);
 
                 if (response.StatusCode==200)
                 {

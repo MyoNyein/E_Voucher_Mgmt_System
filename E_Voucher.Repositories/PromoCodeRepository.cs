@@ -32,18 +32,19 @@ namespace E_Voucher.Repositories
                              ).FirstOrDefault();
             if(order!=null)
             {
-                
+                for (int i = 0; i < order.Quantity; i++)
+                {
                     bool isUnique = false;
                     string promoCode = StringHelper.GeneatePromo();
                     string qrCodePath;
                     do
                     {
                         isUnique = !(from gp in db_Evoucher.TblGeneratedEvouchers
-                                    where gp.PromoCode == promoCode
-                                    select true
+                                     where gp.PromoCode == promoCode
+                                     select true
                                    ).FirstOrDefault();
                     } while (!isUnique);
-                   
+
                     qrCodePath = QRCodeHelper.GenerateQRCode(promoCode);
 
                     if (qrCodePath != "")
@@ -53,19 +54,21 @@ namespace E_Voucher.Repositories
                             ExpiryDate = order.ExpiryDate,
                             OwnerName = order.BuyerName,
                             OwnerPhone = order.BuyerPhone,
-                            PromoCode=promoCode,
-                            PurchaseOrderNo= order.PurchaseOrderNo,
-                            QrImagePath=qrCodePath,
-                            Status=(int)RecordStatus.Active,
-                            VoncherAmount=order.VoncherAmount,
-                            VoucherImagePath= order.ImagePath,
+                            PromoCode = promoCode,
+                            PurchaseOrderNo = order.PurchaseOrderNo,
+                            QrImagePath = qrCodePath,
+                            Status = (int)RecordStatus.Active,
+                            VoncherAmount = order.VoncherAmount,
+                            VoucherImagePath = order.ImagePath,
                             VoucherNo = order.VoucherNo
                         };
-                        order.VoucherGenerated = true;
+                        
                         db_Evoucher.TblGeneratedEvouchers.Add(generatedEvoucher);
 
                     }
-                
+                }
+                order.VoucherGenerated = true;
+
             }
             else
             {

@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Hangfire;
+using Hangfire.SqlServer;
 
 namespace E_Store_API
 {
@@ -31,6 +33,7 @@ namespace E_Store_API
             services.ConfigureRepositoryWrapper();
             services.ConfigureValidateModel();
             services.AddControllers();
+            services.ConfigureHangfire(Configuration);
             services.ConfigureAuthorization(Configuration);
         }
 
@@ -45,6 +48,7 @@ namespace E_Store_API
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseFileServer();
+            app.UseHangfireDashboard();
             //app.UseDefaultFiles();
             //app.UseStaticFiles();
             //app.UseStaticFiles(new StaticFileOptions()
@@ -57,6 +61,7 @@ namespace E_Store_API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHangfireDashboard();
             });
         }
     }

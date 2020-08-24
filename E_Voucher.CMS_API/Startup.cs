@@ -26,6 +26,7 @@ namespace E_Voucher.CMS_API
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfiguerCORS();
             services.ConfigureDbContex(Configuration);
             services.ConfigureRepositoryWrapper();
             services.AddAutoMapper(typeof(Startup));
@@ -40,12 +41,14 @@ namespace E_Voucher.CMS_API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            
 
             app.UseEndpoints(endpoints =>
             {

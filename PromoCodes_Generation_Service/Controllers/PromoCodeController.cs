@@ -27,9 +27,8 @@ namespace PromoCodes_Generation_Service.Controllers
            // distributedCache = _distributedCache;
         }
 
-        [Route("v1/EVoucher/GeneratePromoCode")]
+        [Route("v1/PromoService/GeneratePromoCode")]
         [HttpPost]
-        [Authorize()]
         public IActionResult GeneratePromoCode(GeneratePromoCodeRequest _request)
         {
             string APIName = "GeneratePromoCode";

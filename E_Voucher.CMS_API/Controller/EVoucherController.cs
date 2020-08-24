@@ -56,9 +56,9 @@ namespace E_Voucher.CMS_API.Controller
 
         
         [Route("v1/EVoucher/GetEvoucherList")]
-        [HttpPost]
+        [HttpGet]
         [Authorize()]
-        public IActionResult GetEvoucherList(GetEVoucherListingRequest _request)
+        public IActionResult GetEvoucherList([FromQuery]GetEVoucherListingRequest _request)
         {
             string APIName = "GetEvoucherList";
             var tmp = LoginInformation.UserName;
@@ -69,6 +69,7 @@ namespace E_Voucher.CMS_API.Controller
                
                 var response = repo.EVoucher.GetEvoucherList(_request);
                 Response.Headers.Add("X-Pagination", PageListHelper.GetPagingMetadata(response));
+                
                 if (response!=null && response.Count>0)
                 {
 
@@ -78,7 +79,7 @@ namespace E_Voucher.CMS_API.Controller
                 else
                 {
                     log.LogError($"{APIName}\r\nNo Record Found");
-                    return NotFound("No Record Found");
+                    return NotFound(new Error("Not-Found","No Record Found"));
                 }
             }
             catch (Exception e)

@@ -73,5 +73,23 @@ namespace E_Voucher.CMS_API.Extensions
                 options.SuppressModelStateInvalidFilter = true;
             });
         }
+        public static void ConfiguerCORS(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder.WithExposedHeaders("X-Pagination");
+                    });
+            });
+        }
     }
 }

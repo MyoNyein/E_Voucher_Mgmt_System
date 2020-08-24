@@ -7,6 +7,7 @@ namespace E_Voucher.Entities.Response_Models
 {
     public class GetEVoucherListingResponse 
     {
+        public int id { get; set; }
         public string VoucherNo { get; set; }
         public string Title { get; set; }
         public DateTime? ExpiryDate { get; set; }
