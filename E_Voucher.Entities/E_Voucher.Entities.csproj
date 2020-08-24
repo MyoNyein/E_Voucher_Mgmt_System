@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Database\EVoucherSystem\DBModelMap\TemplateMap.cs" />
+    <Compile Remove="Evoucher_SystemContext.cs" />
+    <Compile Remove="TblBuyType.cs" />
+    <Compile Remove="TblEvoucher.cs" />
+    <Compile Remove="TblRefreshToken.cs" />
+    <Compile Remove="TblUserPassword.cs" />
+    <Compile Remove="TblUsers.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="efpt.config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.1" />
+  </ItemGroup>
+
+</Project>

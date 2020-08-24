@@ -1,0 +1,59 @@
+﻿{
+   "ContextClassName": "Evoucher_SystemContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "ProjectRootNamespace": "E_Voucher.Entities",
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Buy_Type]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_EVoucher]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Generated_EVoucher]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Payment_Method]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Purchase_History]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Purchase_Order]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Refresh_Token]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_User_Password]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tbl_Users]"
+      }
+   ],
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseNodaTime": false,
+   "UseSpatial": false,
+   "UseStoredProcedures": false
+}
