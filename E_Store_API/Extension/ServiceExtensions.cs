@@ -101,6 +101,7 @@ namespace E_Store_API.Extensions
                 option.Configuration = config["RedisURL"];
                 option.InstanceName = "master";
             });
+            
         }
     }
 }
