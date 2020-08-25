@@ -31,6 +31,7 @@ namespace E_Voucher.Repositories
         public SubmitEVoucherResponse SubmitEVoucher(SubmitEVoucherRequest _request)
         {
             SubmitEVoucherResponse response = new SubmitEVoucherResponse();
+            _request.BuyType = "";
             if (_request.Image != "")
             {
                 var rawBase64 = _request.Image.Split(',');

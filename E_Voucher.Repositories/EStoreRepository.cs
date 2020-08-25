@@ -137,6 +137,7 @@ namespace E_Voucher.Repositories
                             where p.Status == (int)RecordStatus.Active
                             && p.Quantity > 0
                             && p.ExpiryDate > DateTime.Now
+                            && p.VoucherNo == _request.VoucherNo
                             select new CheckStockAvaliableResponse
                             {
                                 isAvaliable = true,
@@ -208,7 +209,7 @@ namespace E_Voucher.Repositories
             {
                 using (var dbContextTransaction = db_Evoucher.Database.BeginTransaction())
                 {
-                    Thread.Sleep(60000);
+                    //Thread.Sleep(60000);
 
                     try
                     {
