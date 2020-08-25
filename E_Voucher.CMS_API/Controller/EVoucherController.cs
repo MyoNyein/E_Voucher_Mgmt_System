@@ -72,9 +72,14 @@ namespace E_Voucher.CMS_API.Controller
                 
                 if (response!=null && response.Count>0)
                 {
-
                     log.LogInformation($"{APIName}\r\n Get List Count :{response.Count}");
-                    return Ok(response);
+                    return Ok(new { 
+                    data = response,
+                    totalCount = response.TotalCount,
+                    totalPage = response.TotalPages,
+                    currentPage = response.CurrentPage,
+                    pageSize = response.PageSize,
+                    });
                 }
                 else
                 {

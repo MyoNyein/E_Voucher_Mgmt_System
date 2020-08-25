@@ -31,7 +31,14 @@ namespace E_Voucher.Repositories
         public SubmitEVoucherResponse SubmitEVoucher(SubmitEVoucherRequest _request)
         {
             SubmitEVoucherResponse response = new SubmitEVoucherResponse();
+            if (_request.Image != "")
+            {
+                var rawBase64 = _request.Image.Split(',');
+                if (rawBase64.Length >= 2)
+                    _request.Image = rawBase64[1];
+            }
             string validateMsg = ValidateSubmitEVoucher(_request);
+           
 
             if(string.IsNullOrEmpty(validateMsg))
             {
