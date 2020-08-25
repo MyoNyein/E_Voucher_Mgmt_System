@@ -181,7 +181,9 @@ namespace E_Voucher.Repositories
                                 {
                                     id = e.Id,
                                     ExpiryDate = e.ExpiryDate,
-                                    Image = Path.Combine(configuration["BaseURL"], e.ImagePath),
+                                    Quantity = e.Quantity,
+                                    //Image = Path.Combine(configuration["BaseURL"], e.ImagePath),
+                                    Status = e.Status,
                                     SellingPrice = e.SellingPrice,
                                     Title = e.Title,
                                     VoucherAmount = e.VoucherAmount,
@@ -210,7 +212,7 @@ namespace E_Voucher.Repositories
             //if (!isValidBuyType)
             //    validationMsg = $"{validationMsg} /r/n Invalid Buy Type.";
 
-
+            //if(_request.Image)
             if (!ImageHelper.IsBase64(_request.Image))
             {
                 validationMsg = $"{validationMsg} /r/n Invalid Image String.";

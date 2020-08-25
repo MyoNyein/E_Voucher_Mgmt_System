@@ -75,7 +75,9 @@ namespace E_Voucher.Repositories
                                 select new GetEVoucherListingResponse
                                 {
                                     ExpiryDate = e.ExpiryDate,
-                                    Image = Path.Combine(configuration["BaseURL"], e.ImagePath),
+                                    Quantity = e.Quantity ,
+                                    Status = e.Status,
+                                    //Image = Path.Combine(configuration["BaseURL"], e.ImagePath),
                                     SellingPrice = e.SellingPrice,
                                     Title = e.Title,
                                     VoucherAmount = e.VoucherAmount,

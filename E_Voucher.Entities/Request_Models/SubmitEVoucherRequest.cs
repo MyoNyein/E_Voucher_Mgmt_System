@@ -13,7 +13,7 @@ namespace E_Voucher.Entities.Request_Models
         [MaxLength(1000)]
         public string Description { get; set; }
         public DateTime ExpiryDate { get; set; }
-        [Required]
+        
         public string BuyType { get; set; }
         [Required]
         [Range(0.1, double.MaxValue,
@@ -34,7 +34,7 @@ namespace E_Voucher.Entities.Request_Models
         public int GiftPerUserLimit { get; set; }
         [Required]
         public short Status { get; set; }
-        [Required]
+        
         public string Image { get; set; }
         [Required]
         [Range(0, double.MaxValue,

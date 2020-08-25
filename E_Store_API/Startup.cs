@@ -35,6 +35,7 @@ namespace E_Store_API
             services.AddControllers();
             services.ConfigureHangfire(Configuration);
             services.ConfigureAuthorization(Configuration);
+            services.ConfigureRadis(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

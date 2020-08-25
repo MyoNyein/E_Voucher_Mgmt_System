@@ -12,7 +12,9 @@ using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace E_Store_API.Controllers
 {
@@ -23,12 +25,14 @@ namespace E_Store_API.Controllers
         private readonly IRepositoryWrapper repo;
         private readonly ILogger log;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IDistributedCache distributedCache;
 
-        public EStoreController(IRepositoryWrapper _repo, ILogger<EStoreController> _log, IHttpContextAccessor _httpContextAccessor)
+        public EStoreController(IRepositoryWrapper _repo, ILogger<EStoreController> _log, IHttpContextAccessor _httpContextAccessor,IDistributedCache _distributedCache)
         {
             repo = _repo;
             log = _log;
             httpContextAccessor = _httpContextAccessor;
+            distributedCache = _distributedCache;
         }
 
         [Route("v1/EStore/GetAccessToken")]
@@ -164,20 +168,32 @@ namespace E_Store_API.Controllers
             log.LogInformation($"{APIName}");
             try
             {
-
-                var response = repo.Estore.GetPaymentMethodList();
-                //Response.Headers.Add("X-Pagination", PageListHelper.GetPagingMetadata(response));
-                if (response != null && response.Count > 0)
+                var paymentListCatch = distributedCache.GetString("PaymentMethodList");
+                if (string.IsNullOrEmpty(paymentListCatch))
                 {
-
-                    log.LogInformation($"{APIName}\r\n Get List Count :{response.Count}");
-                    return Ok(response);
+                    var response = repo.Estore.GetPaymentMethodList();
+                    //Response.Headers.Add("X-Pagination", PageListHelper.GetPagingMetadata(response));
+                    if (response != null && response.Count > 0)
+                    {
+                        distributedCache.SetString("PaymentMethodList", JsonConvert.SerializeObject(response));
+                        log.LogInformation($"{APIName}\r\n Get List Count :{response.Count}");
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        log.LogError($"{APIName}\r\nNo Record Found");
+                        return NotFound(new Error("Not-Found", "No Record Found"));
+                    }
                 }
                 else
                 {
-                    log.LogError($"{APIName}\r\nNo Record Found");
-                    return NotFound(new Error("Not-Found","No Record Found"));
+
+                    var response = JsonConvert.DeserializeObject<List<GetPaymentMethodListResponse>>(paymentListCatch);
+
+                    log.LogInformation($"{APIName}\r\n Get List from Catch Count :{response.Count}");
+                    return Ok(response);
                 }
+               
             }
             catch (Exception e)
             {

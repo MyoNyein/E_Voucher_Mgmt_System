@@ -118,5 +118,33 @@ namespace E_Voucher.CMS_API.Controller
             }
         }
 
+        [Route("v1/EVoucher/GetEvoucherDetail")]
+        [HttpGet]
+        [Authorize()]
+        public IActionResult GetEvoucherDetail([FromQuery]GetEVoucherDetailRequest _request)
+        {
+            string APIName = "SubmitEVoucher";
+            log.LogInformation($"{APIName}\r\njson={StringHelper.SerializeObject(_request)}");
+            try
+            {
+                var response = repo.EVoucher.GetEvoucherDetail(_request);
+                if (response != null)
+                {
+                    log.LogInformation($"{APIName}\r\n Submit Success ");
+                    return Ok(response);
+                }
+                else
+                {
+                    log.LogError($"{APIName}\r\nStautsCode:404\r\nErrorType:Record Not Found");
+                    return NotFound(new Error("RecordNotFound", "Record Not Found"));
+                }
+            }
+            catch (Exception e)
+            {
+                log.LogError($"{APIName}\r\n{e}");
+                return StatusCode(500, new Error("internal-error", e.Message));
+            }
+        }
+
     }
 }

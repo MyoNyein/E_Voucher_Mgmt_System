@@ -14,6 +14,6 @@ namespace E_Voucher.Entities.Response_Models
         public decimal VoucherAmount { get; set; }
         public decimal SellingPrice { get; set; }
         public int Quantity { get; set; }
-        public string Image { get; set; }
+        public int Status { get; set; }
     }
 }
